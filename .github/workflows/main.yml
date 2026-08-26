@@ -48,12 +48,13 @@ jobs:
           commit_user_email: "github-actions[bot]@users.noreply.github.com"
           file_pattern: README.md
 
-      # 👇 新增：自动删除旧记录，仅保留最新的 1 条
+      # 👇 自动删除旧记录，仅保留最新的 1 条
       - name: Delete old workflow runs
         uses: Mattraks/delete-workflow-runs@v2
         if: always()
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-          retain_minimum_runs: 1
-          keep_minimum_runs: 1
+          retain_days: 0                  # 👈 设置为 0，让删除条件立即生效
+          keep_minimum_runs: 1            # 👈 仅保留最新的 1 条记录
+          delete_workflow_pattern: 'Daily Update'  # 👈 指定当前 workflow 的名字
